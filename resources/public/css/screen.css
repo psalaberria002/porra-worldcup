@@ -1,0 +1,127 @@
+html,
+body {
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    height: 100%;
+}
+.navbar {
+  margin-bottom: 10px;
+  border-radius: 0px;
+}
+.navbar-brand {
+  float: none;
+}
+.navbar-nav .nav-item {
+  float: none;
+}
+.navbar-divider,
+.navbar-nav .nav-item+.nav-item,
+.navbar-nav .nav-link + .nav-link {
+  margin-left: 0;
+}
+@media (min-width: 34em) {
+  .navbar-brand {
+    float: left;
+  }
+  .navbar-nav .nav-item {
+    float: left;
+  }
+  .navbar-divider,
+  .navbar-nav .nav-item+.nav-item,
+  .navbar-nav .nav-link + .nav-link {
+    margin-left: 1rem;
+  }
+}
+
+@-moz-keyframes three-quarters-loader {
+    0% {
+        -moz-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@-webkit-keyframes three-quarters-loader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+@keyframes three-quarters-loader {
+    0% {
+        -moz-transform: rotate(0deg);
+        -ms-transform: rotate(0deg);
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -moz-transform: rotate(360deg);
+        -ms-transform: rotate(360deg);
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+body {
+    font-family: 'Lato', Arial, sans-serif;
+    color: #989c9b;
+}
+
+.container > header {
+    margin: 0 auto;
+    padding: 1em;
+    text-align: center;
+}
+
+.container > header h1 {
+    font-weight: 600;
+    font-size: 3em;
+    margin: 0;
+}
+
+.wrapper {
+    line-height: 1.5em;
+    margin: 0 auto;
+    padding: 2em 0 3em;
+    width: 90%;
+    max-width: 2000px;
+    overflow: hidden;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    background: #fff;
+}
+
+th {
+    background-color: #326295;
+    font-weight: bold;
+    color: #fff;
+    white-space: nowrap;
+}
+
+td, th {
+    padding: 1em 1.5em;
+    text-align: left;
+}
+
+tbody th {
+    background-color: #2ea879;
+}
+tbody tr:nth-child(2n-1) {
+    background-color: #f5f5f5;
+    transition: all .125s ease-in-out;
+}
+tbody tr:hover {
+    background-color: rgba(50,98,149,.3);
+}
+
+td.rank {
+    text-transform: capitalize;
+}

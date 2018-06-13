@@ -1,0 +1,73 @@
+{:name "Paul"
+ :matches {1 "1"
+           2 "2"
+           3 "X"
+           4 "1"
+           5 "1"
+           6 "2"
+           7 "1"
+           8 "2"
+           9 "1"
+           10 "X"
+           11 "1"
+           12 "1"
+           13 "1"
+           14 "2"
+           15 "1"
+           16 "1"
+           17 "X"
+           18 "1"
+           19 "1"
+           20 "2"
+           21 "1"
+           22 "1"
+           23 "2"
+           24 "1"
+           25 "1"
+           26 "2"
+           27 "1"
+           28 "2"
+           29 "1"
+           30 "1"
+           31 "2"
+           32 "X"
+           33 "X"
+           34 "2"
+           35 "2"
+           36 "X"
+           37 "2"
+           38 "1"
+           39 "2"
+           40 "X"
+           41 "2"
+           42 "X"
+           43 "2"
+           44 "1"
+           45 "2"
+           46 "2"
+           47 "X"
+           48 "1"}
+ :group-standings {:a ["Uruguay" "Russia" "Egypt" "Saudi Arabia"]
+                   :b ["Portugal" "Spain" "Morocco" "Iran"]
+                   :c ["France" "Denmark" "Australia" "Peru"]
+                   :d ["Argentina" "Nigeria" "Croatia" "Iceland"]
+                   :e ["Brazil" "Switzerland" "Serbia" "Costa Rica"]
+                   :f ["Germany" "Mexico" "Sweden" "South Korea"]
+                   :g ["Belgium" "England" "Tunisia" "Panama"]
+                   :h ["Colombia" "Poland" "Senegal" "Japan"]}
+ :rounds {:round-16         #{"Uruguay" "Russia"
+                              "Portugal" "Spain"
+                              "France" "Denmark"
+                              "Argentina" "Nigeria"
+                              "Brazil" "Switzerland"
+                              "Germany" "Mexico"
+                              "Belgium" "England"
+                              "Colombia" "Poland"}
+          :quarter          #{"Spain" "France" "Portugal" "Argentina"
+                              "Brazil" "Germany" "Belgium" "Colombia"}
+          :semi             #{"Spain" "France" "Belgium" "Brazil"}
+          :final            #{"France" "Brazil"}
+          :third-and-fourth #{"Belgium" "Spain"}
+          :winner           "Germany"}
+ :pichichi "Neymar"
+ :mvp "Mbappe"}
