@@ -16,3 +16,4 @@ profiles.clj
 *.iml
 .rebel_readline_history
 figwheel_server.log
+build_and_deploy.sh
