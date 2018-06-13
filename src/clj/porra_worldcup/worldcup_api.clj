@@ -155,3 +155,9 @@
 
 (defn all-matches []
   (map add-match-result (get-all-matches (:rounds (get-fixtures-and-results-memoized)))))
+
+(defn get-teams []
+  (-> (client/get (str api-url "/worldcup.teams.json"))
+      :body
+      (json/decode true)
+      :teams))

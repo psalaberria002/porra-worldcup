@@ -1,7 +1,8 @@
 (ns porra-worldcup.core
   (:require [reagent.core :as r]
             [re-frame.core :as rf]
-
+            [re-com.selection-list :refer [selection-list]]
+            [reagent-forms.core :refer [bind-fields init-field value-of]]
             [goog.events :as events]
             [goog.history.EventType :as HistoryEventType]
             [markdown.core :refer [md->html]]
@@ -20,7 +21,7 @@
   [:nav.navbar.navbar-dark.bg-primary.navbar-expand-md
    {:role "navigation"}
    [:button.navbar-toggler.hidden-sm-up
-    {:type "button"
+    {:type        "button"
      :data-toggle "collapse"
      :data-target "#collapsing-navbar"}
     [:span.navbar-toggler-icon]]
@@ -29,7 +30,7 @@
     [:ul.nav.navbar-nav.mr-auto
      [nav-link "#/" "Ranking" :ranking]
      [nav-link "#/matches" "Matches" :matches]
-     [nav-link "#/results" "Results" :results]]]])
+     [nav-link "#/form" "Form" :form]]]])
 
 (defn matches-page []
   [:div.container
@@ -39,9 +40,9 @@
       [:tr
        (for [c ["#" "Home" "Away" "Date" "City" "Result"]]
          [:th c])]]
-     (when-let [ranking @(rf/subscribe [:matches])]
+     (when-let [matches @(rf/subscribe [:matches])]
        [:tbody
-        (doall (map-indexed (fn [i match]
+        (doall (map (fn [match]
                               [:tr
                                [:td.rank (:num match)]
                                [:td.team (:name (:team1 match))]
@@ -49,13 +50,86 @@
                                [:td.date (str (:date match) "T" (:time match) " (" (:timezone match) ")")]
                                [:td.city (:city match)]
                                [:td.result (:result match)]])
-                            ranking))])]]])
+                            matches))])]]])
 
-(defn results-page []
+(defn row [label input]
+  [:div.row
+   [:div.col-md-2 [:label label]]
+   [:div.col-md-5 input]])
+
+(defn form [matches teams]
   [:div.container
-   [:div.row
-    [:div.col-md-12
-     [:img {:src "/img/warning_clojure.png"}]]]])
+   [:input.form-control {:field       :text :id :name
+                         :placeholder "Name here!!!"
+                         :validator   (fn [doc]
+                                        (when (-> doc :name empty?)
+                                          ["error"]))}]
+   (for [match matches]
+     (row (str (:name (:team1 match)) " - " (:name (:team2 match)))
+          [:select.form-control {:field :list :id (keyword (str "matches." (:num match)))}
+           [:option {:key "1"} "1"]
+           [:option {:key "X"} "X"]
+           [:option {:key "2"} "2"]]))
+   (let [groups (group-by :group matches)]
+     (for [[g gmatches] groups]
+       (let [gteams (->> (map :team1 gmatches)
+                         set)]
+         [:div
+          [:h2 g]
+          (for [i (range 4)]
+            [:div
+             (let [gpos (clojure.string/lower-case (str (first (reverse g)) (+ i 1)))]
+               (row (clojure.string/upper-case gpos)
+                    [:select.form-control {:field :list :id (keyword (str "group-standings." gpos))}
+                     (for [t (sort-by :name gteams)]
+                       [:option {:key (:name t)} (:name t)])]))
+             ])])))
+   (for [[round-kw amount] [[:round-16 16] [:quarter 8] [:semi 4] [:final 2] [:third-and-fourth 2]]]
+     [:div
+      [:h2 (str round-kw " (" amount " teams)")]
+      [:ul.list-group {:field :multi-select :id (keyword (str "rounds." (name round-kw)))}
+       (for [team (sort-by :name teams)]
+         [:li.list-group-item {:key (:name team)} (:name team)])]])
+   [:div
+    (row "Winner"
+         [:select.form-control {:field :list :id :rounds.winner}
+          (for [team (sort-by :name teams)]
+            [:option {:key (:name team)} (:name team)])])]
+   (row "Pichichi"
+        [:input.form-control {:field       :text :id :pichichi
+                          :placeholder "Pichichi"}])
+   (row "MVP"
+        [:input.form-control {:field       :text :id :mvp
+                          :placeholder "MVP"}])
+   ])
+
+(defn form-page []
+  (let [doc (r/atom {:name            ""
+                     :matches         {}
+                     :group-standings {}
+                     :rounds          {:round-16         []
+                                       :quarter          []
+                                       :semi             []
+                                       :final            []
+                                       :third-and-fourth []
+                                       :winner           ""}
+                     :pichichi        ""
+                     :mvp             ""}
+                    )]
+    (fn []
+      (let [matches @(rf/subscribe [:matches])
+            teams @(rf/subscribe [:teams])]
+        [:div
+         [bind-fields (form matches teams) doc]
+         #_[:label (str @doc)]
+         [:button
+          {:on-click #(POST "/api/save-porra"
+                            {:params        @doc
+                             :handler       (fn [r]         ;;TODO: Show message
+                                              )
+                             :error-handler (fn [r]         ;;TODO: Show error message
+                                              )})}
+          "Save and send"]]))))
 
 (defn ranking-page []
   [:div.container
@@ -70,16 +144,16 @@
      (when-let [ranking @(rf/subscribe [:ranking])]
        [:tbody
         (doall (map-indexed (fn [i [name points]]
-                        [:tr
-                         [:td.rank (+ 1 i)]
-                         [:td.team name]
-                         [:td.points points]])
-                      ranking))])]]])
+                              [:tr
+                               [:td.rank (+ 1 i)]
+                               [:td.team name]
+                               [:td.points points]])
+                            ranking))])]]])
 
 (def pages
   {:ranking #'ranking-page
    :matches #'matches-page
-   :results #'results-page})
+   :form    #'form-page})
 
 (defn page []
   [:div
@@ -97,8 +171,8 @@
 (defn fetch-matches! []
   (GET "/api/matches" {:handler #(rf/dispatch [:set-matches %])}))
 
-(defn fetch-standings-with-results! []
-  (GET "/api/standings" {:handler #(rf/dispatch [:set-standings %])}))
+(defn fetch-teams []
+  (GET "/api/teams" {:handler #(rf/dispatch [:set-teams %])}))
 
 (secretary/defroute "/" []
   (fetch-ranking!)
@@ -108,9 +182,10 @@
   (fetch-matches!)
   (rf/dispatch [:navigate :matches]))
 
-(secretary/defroute "/results" []
-  (fetch-standings-with-results!)
-  (rf/dispatch [:navigate :results]))
+(secretary/defroute "/form" []
+  (fetch-teams)
+  (fetch-matches!)
+  (rf/dispatch [:navigate :form]))
 
 ;; -------------------------
 ;; History
@@ -136,5 +211,7 @@
   (rf/dispatch-sync [:navigate :ranking])
   (load-interceptors!)
   (fetch-docs!)
+  (fetch-teams)
+  (fetch-matches!)
   (hook-browser-navigation!)
   (mount-components))

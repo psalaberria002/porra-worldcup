@@ -5,10 +5,17 @@
             [compojure.api.sweet :refer :all]
             [schema.core :as s]
             [porra-worldcup.calculations :as calcs]
-            [porra-worldcup.worldcup-api :as worldcup-api]))
+            [porra-worldcup.worldcup-api :as worldcup-api]
+            [clj-time.local :as l]
+            [clj-time.coerce :as c]))
 
 (defn home-page []
   (layout/render "home.html"))
+
+(defn write-dataset-edn! [out-file raw-dataset-map]
+  (with-open [w (clojure.java.io/writer out-file)]
+    (binding [*out* w]
+      (clojure.pprint/write raw-dataset-map))))
 
 (defroutes home-routes
   (GET "/" []
@@ -30,6 +37,16 @@
                  (GET "/standings" []
                    :summary "Return ranking"
                    (response/ok (calcs/calculate-all)))
+
+                 (POST "/save-porra" []
+                       :body [b s/Any]
+                       (response/ok (write-dataset-edn! (str (:name b)
+                                                             "-"
+                                                             (c/to-long (l/local-now)))
+                                                        b)))
+
+                 (GET "/teams" []
+                      (response/ok (worldcup-api/get-teams)))
 
                  (GET "/rankingpoints" []
                    :summary "Return ranking with points"

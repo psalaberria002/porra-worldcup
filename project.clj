@@ -6,6 +6,7 @@
   :dependencies [[clj-http "3.9.0"]
                  [org.clojure/core.memoize "0.7.1"]
                  [cheshire "5.8.0"]
+                 [re-com "0.9.0"]
                  [clj-time "0.14.4"]
                  [cljs-ajax "0.7.3"]
                  [compojure "1.6.1"]
@@ -32,6 +33,7 @@
                  [ring-webjars "0.2.0"]
                  [ring/ring-core "1.6.3"]
                  [ring/ring-defaults "0.3.2"]
+                 [reagent-forms "0.5.42"]
                  [secretary "1.2.3"]
                  [selmer "1.11.7"]]
 

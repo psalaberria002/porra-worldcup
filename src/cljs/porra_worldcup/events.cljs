@@ -29,6 +29,11 @@
   (fn [db [_ r]]
     (assoc db :matches r)))
 
+(reg-event-db
+  :set-teams
+  (fn [db [_ r]]
+    (assoc db :teams r)))
+
 ;;subscriptions
 
 (reg-sub
@@ -55,3 +60,8 @@
   :matches
   (fn [db _]
     (:matches db)))
+
+(reg-sub
+  :teams
+  (fn [db _]
+    (:teams db)))
