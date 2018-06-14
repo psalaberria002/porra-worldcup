@@ -124,6 +124,13 @@
        :matches
        not-empty))
 
+(defn group-standings-sorted->gpos-team [group-standings-sorted]
+  (into {}
+        (mapcat (fn [[g teams]]
+             (map-indexed (fn [pos team]
+                            [(keyword (str (name g) (+ 1 pos))) team]) teams))
+           group-standings-sorted)))
+
 (defn generate-results-porra []
   (let [fixtures-and-results (:rounds (get-fixtures-and-results-memoized))
         group-matches (get-group-matches fixtures-and-results)
@@ -133,7 +140,7 @@
         max-scorers (get-max-scorers fixtures-and-results)]
     {:matches         (results->matchnumber-value group-matches)
      :group-standings (when (group-matches-finished? fixtures-and-results)
-                        group-standings-sorted)
+                        (group-standings-sorted->gpos-team group-standings-sorted))
      :rounds          {:round-16         (when (group-matches-finished? fixtures-and-results)
                                            (get-first-two-teams-from-each-group group-standings-sorted))
                        :quarter          (get-teams-in-quarter-finals fixtures-and-results)

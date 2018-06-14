@@ -43,14 +43,14 @@
      (when-let [matches @(rf/subscribe [:matches])]
        [:tbody
         (doall (map (fn [match]
-                              [:tr
-                               [:td.rank (:num match)]
-                               [:td.team (:name (:team1 match))]
-                               [:td.team (:name (:team2 match))]
-                               [:td.date (str (:date match) "T" (:time match) " (" (:timezone match) ")")]
-                               [:td.city (:city match)]
-                               [:td.result (:result match)]])
-                            matches))])]]])
+                      [:tr
+                       [:td.rank (:num match)]
+                       [:td.team (:name (:team1 match))]
+                       [:td.team (:name (:team2 match))]
+                       [:td.date (str (:date match) "T" (:time match) " (" (:timezone match) ")")]
+                       [:td.city (:city match)]
+                       [:td.result (:result match)]])
+                    matches))])]]])
 
 (defn row [label input]
   [:div.row
@@ -97,10 +97,10 @@
             [:option {:key (:name team)} (:name team)])])]
    (row "Pichichi"
         [:input.form-control {:field       :text :id :pichichi
-                          :placeholder "Pichichi"}])
+                              :placeholder "Pichichi"}])
    (row "MVP"
         [:input.form-control {:field       :text :id :mvp
-                          :placeholder "MVP"}])
+                              :placeholder "MVP"}])
    ])
 
 (defn form-page []
@@ -124,7 +124,13 @@
          #_[:label (str @doc)]
          [:button
           {:on-click #(POST "/api/save-porra"
-                            {:params        @doc
+                            {:params        (let [to-set (fn [v] (set v))]
+                                              (-> @doc
+                                                  (update-in [:rounds :round-16] to-set)
+                                                  (update-in [:rounds :quarter] to-set)
+                                                  (update-in [:rounds :semi] to-set)
+                                                  (update-in [:rounds :final] to-set)
+                                                  (update-in [:rounds :third-and-fourth] to-set)))
                              :handler       (fn [r]         ;;TODO: Show message
                                               )
                              :error-handler (fn [r]         ;;TODO: Show error message

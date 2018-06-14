@@ -36,13 +36,12 @@
 
 (defn calculate-group-standings-points [porra results]
   (let [group-standings-results (:group-standings results)]
-    (reduce (fn [res [group-kw teams]]
-              (+ res
-                 (->> (map (fn [a b] (= a b)) (group-kw group-standings-results) teams)
-                      (remove false?)
-                      count
-                      (* 5))))
-            0 (:group-standings porra))))
+    (->> (:group-standings porra)
+         (map (fn [[gpos-kw team]]
+                (= (gpos-kw group-standings-results) team)))
+         (remove false?)
+         count
+         (* 5))))
 
 (defn calculate-round-points [round-kw points porra results]
   (let [p (set (round-kw (:rounds porra)))

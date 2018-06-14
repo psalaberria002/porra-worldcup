@@ -1,0 +1,116 @@
+{:name "Joanesvîc",
+ :matches
+       {:14 "2",
+        :39 "2",
+        :37 "2",
+        :27 "1",
+        :42 "1",
+        :45 "2",
+        :31 "X",
+        :40 "2",
+        :18 "1",
+        :12 "1",
+        :11 "1",
+        :24 "2",
+        :10 "1",
+        :21 "1",
+        :23 "2",
+        :13 "1",
+        :30 "1",
+        :38 "2",
+        :4 "1",
+        :43 "2",
+        :26 "2",
+        :16 "1",
+        :44 "X",
+        :7 "1",
+        :35 "2",
+        :1 "1",
+        :8 "1",
+        :36 "1",
+        :22 "1",
+        :47 "1",
+        :25 "1",
+        :9 "1",
+        :20 "2",
+        :17 "X",
+        :46 "2",
+        :32 "X",
+        :28 "2",
+        :48 "2",
+        :19 "1",
+        :2 "2",
+        :5 "1",
+        :41 "2",
+        :15 "X",
+        :3 "X",
+        :6 "2",
+        :33 "X",
+        :29 "1",
+        :34 "2"},
+ :group-standings
+       {:d1 "Croatia",
+        :a2 "Russia",
+        :e1 "Brazil",
+        :b2 "Spain",
+        :d2 "Argentina",
+        :f1 "Germany",
+        :c3 "Peru",
+        :e2 "Switzerland",
+        :e3 "Costa Rica",
+        :a3 "Egypt",
+        :a1 "Uruguay",
+        :b1 "Portugal",
+        :c4 "Australia",
+        :g4 "Panama",
+        :g2 "England",
+        :d4 "Nigeria",
+        :c2 "Denmark",
+        :g3 "Tunisia",
+        :h4 "Poland",
+        :g1 "Belgium",
+        :e4 "Serbia",
+        :c1 "France",
+        :f3 "Mexico",
+        :b4 "Iran",
+        :f2 "Sweden",
+        :b3 "Morocco",
+        :h2 "Senegal",
+        :h1 "Colombia",
+        :d3 "Iceland",
+        :h3 "Japan",
+        :f4 "South Korea",
+        :a4 "Saudi Arabia"},
+ :rounds
+       {:round-16
+                          #{"Uruguay"
+                            "Argentina"
+                            "Portugal"
+                            "Brazil"
+                            "Colombia"
+                            "Sweden"
+                            "Croatia"
+                            "Belgium"
+                            "Russia"
+                            "France"
+                            "Senegal"
+                            "Denmark"
+                            "Switzerland"
+                            "Spain"
+                            "Germany"
+                            "England"},
+        :quarter
+                          #{"Uruguay"
+                            "Portugal"
+                            "Brazil"
+                            "Croatia"
+                            "Belgium"
+                            "France"
+                            "Germany"
+                            "England"},
+        :semi #{"Brazil" "Croatia" "France" "Germany"},
+        :final #{"France" "Germany"},
+        :third-and-fourth #{"Portugal" "Brazil"},
+        :winner "France"},
+ :pichichi "Griezman",
+ :mvp "Griezman "}

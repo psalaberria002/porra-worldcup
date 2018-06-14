@@ -1,0 +1,116 @@
+{:name "Bilxerian",
+ :matches
+       {:14 "2",
+        :39 "2",
+        :37 "2",
+        :27 "1",
+        :42 "1",
+        :45 "X",
+        :31 "2",
+        :40 "X",
+        :18 "1",
+        :12 "2",
+        :11 "1",
+        :24 "2",
+        :10 "2",
+        :21 "X",
+        :23 "X",
+        :13 "1",
+        :30 "1",
+        :38 "1",
+        :4 "1",
+        :43 "2",
+        :26 "X",
+        :16 "X",
+        :44 "1",
+        :7 "2",
+        :35 "2",
+        :1 "1",
+        :8 "1",
+        :36 "1",
+        :22 "X",
+        :47 "2",
+        :25 "1",
+        :9 "1",
+        :20 "2",
+        :17 "1",
+        :46 "2",
+        :32 "X",
+        :28 "X",
+        :48 "2",
+        :19 "1",
+        :2 "2",
+        :5 "X",
+        :41 "X",
+        :15 "1",
+        :3 "2",
+        :6 "X",
+        :33 "X",
+        :29 "1",
+        :34 "2"},
+ :group-standings
+       {:d1 "Croatia",
+        :a2 "Russia",
+        :e1 "Brazil",
+        :b2 "Portugal",
+        :d2 "Iceland",
+        :f1 "Germany",
+        :c3 "Denmark",
+        :e2 "Serbia",
+        :e3 "Switzerland",
+        :a3 "Egypt",
+        :a1 "Uruguay",
+        :b1 "Spain",
+        :c4 "Peru",
+        :g4 "Panama",
+        :g2 "England",
+        :d4 "Nigeria",
+        :c2 "Australia",
+        :g3 "Tunisia",
+        :h4 "Senegal",
+        :g1 "Belgium",
+        :e4 "Costa Rica",
+        :c1 "France",
+        :f3 "Mexico",
+        :b4 "Iran",
+        :f2 "South Korea",
+        :b3 "Morocco",
+        :h2 "Poland",
+        :h1 "Colombia",
+        :d3 "Argentina",
+        :h3 "Japan",
+        :f4 "Sweden",
+        :a4 "Saudi Arabia"},
+ :rounds
+       {:round-16
+                          #{"Australia"
+                            "Uruguay"
+                            "Portugal"
+                            "Brazil"
+                            "Colombia"
+                            "Croatia"
+                            "Belgium"
+                            "Mexico"
+                            "Russia"
+                            "France"
+                            "Switzerland"
+                            "Iceland"
+                            "Spain"
+                            "Germany"
+                            "Poland"
+                            "England"},
+        :quarter
+                          #{"Brazil"
+                            "Colombia"
+                            "Belgium"
+                            "France"
+                            "Iceland"
+                            "Spain"
+                            "Germany"
+                            "England"},
+        :semi #{"Brazil" "France" "Spain" "Germany"},
+        :final #{"Brazil" "Spain"},
+        :third-and-fourth #{"France" "Germany"},
+        :winner "Brazil"},
+ :pichichi "Neymar",
+ :mvp "Neymar"}
