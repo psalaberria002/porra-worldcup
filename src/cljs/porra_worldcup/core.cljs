@@ -1,5 +1,7 @@
 (ns porra-worldcup.core
-  (:require [reagent.core :as r]
+  (:use-macros [cljs.core.async.macros :only [go]])
+  (:require [cljs.core.async :refer [<! timeout]]
+            [reagent.core :as r]
             [re-frame.core :as rf]
             [re-com.selection-list :refer [selection-list]]
             [reagent-forms.core :refer [bind-fields init-field value-of]]
@@ -118,7 +120,8 @@
                     )]
     (fn []
       (let [matches @(rf/subscribe [:matches])
-            teams @(rf/subscribe [:teams])]
+            teams @(rf/subscribe [:teams])
+            saved? @(rf/subscribe [:porra-saved])]
         [:div
          [bind-fields (form matches teams) doc]
          #_[:label (str @doc)]
@@ -132,10 +135,15 @@
                                                   (update-in [:rounds :final] to-set)
                                                   (update-in [:rounds :third-and-fourth] to-set)))
                              :handler       (fn [r]         ;;TODO: Show message
-                                              )
+                                              (rf/dispatch [:show-porra-saved true])
+                                              (go
+                                                (<! (timeout 3000))
+                                                (rf/dispatch [:hide-porra-saved true])))
                              :error-handler (fn [r]         ;;TODO: Show error message
                                               )})}
-          "Save and send"]]))))
+          (if (not saved?)
+            "Save and send"
+            "Saved successfully ;)")]]))))
 
 (defn ranking-page []
   [:div.container

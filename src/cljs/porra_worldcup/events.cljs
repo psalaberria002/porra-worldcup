@@ -34,6 +34,18 @@
   (fn [db [_ r]]
     (assoc db :teams r)))
 
+(reg-event-db
+  :hide-porra-saved
+  (fn [db [_ r]]
+    (assoc db :porra-saved false)))
+
+(reg-event-db
+  :show-porra-saved
+  (fn [db [_ r]]
+    (assoc db :porra-saved true)))
+
+
+
 ;;subscriptions
 
 (reg-sub
@@ -65,3 +77,10 @@
   :teams
   (fn [db _]
     (:teams db)))
+
+(reg-sub
+  :porra-saved
+  (fn [db _]
+    (:porra-saved db)))
+
+
