@@ -29,10 +29,12 @@
        (map (fn [m] (update m :matches #(into (sorted-map) %))))))
 
 (defn calculate-group-match-points [porra results]
-  (->> (map (fn [bet res] (= bet res)) (:matches porra) (:matches results))
-       (remove false?)
-       count
-       (* 2)))
+  (println results)
+  (let [result-matches (:matches results)]
+    (->> (map (fn [[k bet]] (= bet (k result-matches))) (:matches porra))
+         (remove false?)
+         count
+         (* 2))))
 
 (defn calculate-group-standings-points [porra results]
   (let [group-standings-results (:group-standings results)]

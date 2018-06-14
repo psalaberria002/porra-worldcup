@@ -52,7 +52,7 @@
 (defn results->matchnumber-value [group-matches]
   (->> (map add-match-result group-matches)
        (map (fn [match]
-              ((juxt :num :result) match)))
+              ((juxt (fn [m] (keyword (str (:num m)))) :result) match)))
        (into (sorted-map))))
 
 (defn get-group-standings []
