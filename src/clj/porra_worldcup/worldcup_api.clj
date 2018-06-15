@@ -4,6 +4,7 @@
     [cheshire.core :as json]
     [clojure.core.memoize :as memoize]))
 
+;; TODO: https://github.com/lsv/fifa-worldcup-2018
 (def api-url "https://raw.githubusercontent.com/openfootball/world-cup.json/master/2018")
 
 (defn get-fixtures-and-results []
