@@ -40,10 +40,11 @@
 
                  (POST "/save-porra" []
                        :body [b s/Any]
-                       (response/ok (write-dataset-edn! (str (:name b)
-                                                             "-"
-                                                             (c/to-long (l/local-now)))
-                                                        b)))
+                       (let [transformed (worldcup-api/convert-match-keys-to-team-names b)]
+                         (response/ok (write-dataset-edn! (str (:name transformed)
+                                                               "-"
+                                                               (c/to-long (l/local-now)))
+                                                          transformed))))
 
                  (GET "/teams" []
                       (response/ok (worldcup-api/get-teams)))

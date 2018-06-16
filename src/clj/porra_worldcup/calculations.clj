@@ -1,7 +1,8 @@
 (ns porra-worldcup.calculations
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
-            [porra-worldcup.worldcup-api :as worldcup-api]))
+            [porra-worldcup.worldcup-api :as worldcup-api]
+            [porra-worldcup.fifa-worldcup-2018 :as worldcup-api-new]))
 
 (defn load-edn
   "Load edn from an io/reader source (filename or io/resource)."
@@ -30,7 +31,7 @@
 
 (defn calculate-group-match-points [porra results]
   (let [result-matches (:matches results)]
-    (->> (map (fn [[k bet]] (= bet (k result-matches))) (:matches porra))
+    (->> (map (fn [[k bet]] (= bet (get result-matches k))) (:matches porra))
          (remove false?)
          count
          (* 2))))
@@ -95,7 +96,7 @@
   )
 
 (defn calculate-all []
-  (let [results (worldcup-api/generate-results-porra)]
+  (let [results (worldcup-api-new/generate-results-porra)]
     {:results results
      :porras  (->> (map (fn [p] (assoc p :points (calculate-points-for-porra p results))) (load-all-porras))
                    (sort-by :points)

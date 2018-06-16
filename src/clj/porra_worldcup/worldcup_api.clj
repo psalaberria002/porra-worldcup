@@ -4,7 +4,6 @@
     [cheshire.core :as json]
     [clojure.core.memoize :as memoize]))
 
-;; TODO: https://github.com/lsv/fifa-worldcup-2018
 (def api-url "https://raw.githubusercontent.com/openfootball/world-cup.json/master/2018")
 
 (defn get-fixtures-and-results []
@@ -44,11 +43,11 @@
 (defn add-match-result [game]
   (let [[s1 s2] (get-result game)]
     (assoc game :result (when (game-finished? game)
-                           (if (> s1 s2)
-                             "1"
-                             (if (= s1 s2)
-                               "X"
-                               "2"))))))
+                          (if (> s1 s2)
+                            "1"
+                            (if (= s1 s2)
+                              "X"
+                              "2"))))))
 
 (defn results->matchnumber-value [group-matches]
   (->> (map add-match-result group-matches)
@@ -99,7 +98,7 @@
   (get-winners-of-round fixtures-and-results "Semi-finals"))
 (defn get-teams-in-third-and-fourth-game [fixtures-and-results]
   (->> (clojure.set/difference (set (get-teams-in-semi-finals fixtures-and-results))
-                                 (set (get-teams-in-final fixtures-and-results)))))
+                               (set (get-teams-in-final fixtures-and-results)))))
 
 (defn get-all-matches [fixtures-and-results]
   (mapcat :matches fixtures-and-results))
@@ -128,9 +127,9 @@
 (defn group-standings-sorted->gpos-team [group-standings-sorted]
   (into {}
         (mapcat (fn [[g teams]]
-             (map-indexed (fn [pos team]
-                            [(keyword (str (name g) (+ 1 pos))) team]) teams))
-           group-standings-sorted)))
+                  (map-indexed (fn [pos team]
+                                 [(keyword (str (name g) (+ 1 pos))) team]) teams))
+                group-standings-sorted)))
 
 (defn generate-results-porra []
   (let [fixtures-and-results (:rounds (get-fixtures-and-results-memoized))
@@ -169,3 +168,13 @@
       :body
       (json/decode true)
       :teams))
+
+(defn get-teams-for-match-key [k group-matches]
+  (let [game (first (filter #(= (:num %) (Integer. (name k))) group-matches))]
+    [(:name (:team1 game)) (:name (:team2 game))]))
+
+(defn convert-match-keys-to-team-names [porra]
+  (let [fixtures-and-results (:rounds (get-fixtures-and-results-memoized))
+        group-matches (get-group-matches fixtures-and-results)]
+    (update porra :matches (fn [matches]
+                             (into {} (map (fn [[k r]] [(get-teams-for-match-key k group-matches) r]) matches))))))
