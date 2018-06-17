@@ -1,7 +1,6 @@
 # porra-worldcup
 
-https://github.com/openfootball/world-cup.json
-FIXME
+This repo is a mess! It was built in a rush for the WorldCup.
 
 ## Prerequisites
 
