@@ -44,6 +44,11 @@
   (fn [db [_ r]]
     (assoc db :porra-saved true)))
 
+(reg-event-db
+  :select-porra
+  (fn [db [_ r]]
+    (assoc db :selected-porra r)))
+
 
 
 ;;subscriptions
@@ -82,5 +87,10 @@
   :porra-saved
   (fn [db _]
     (:porra-saved db)))
+
+(reg-sub
+  :selected-porra
+  (fn [db _]
+    (:selected-porra db)))
 
 

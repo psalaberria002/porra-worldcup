@@ -6,6 +6,7 @@
   :dependencies [[clj-http "3.9.0"]
                  [org.clojure/core.async "0.4.474"]
                  [org.clojure/core.memoize "0.7.1"]
+                 [json-html "0.4.4"]
                  [cheshire "5.8.0"]
                  [re-com "0.9.0"]
                  [clj-time "0.14.4"]

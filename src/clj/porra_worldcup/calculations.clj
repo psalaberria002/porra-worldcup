@@ -2,7 +2,8 @@
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
             [porra-worldcup.worldcup-api :as worldcup-api]
-            [porra-worldcup.fifa-worldcup-2018 :as worldcup-api-new]))
+            [porra-worldcup.fifa-worldcup-2018 :as worldcup-api-new]
+            [porra-worldcup.config :as config]))
 
 (defn load-edn
   "Load edn from an io/reader source (filename or io/resource)."
@@ -17,7 +18,7 @@
       (printf "Error parsing edn file '%s': %s\n" source (.getMessage e)))))
 
 (defn get-porra-filenames []
-  (let [porras-resource-folder "porras/"]
+  (let [porras-resource-folder (str (:porrasfolder config/env) "/")]
     (->> (clojure.java.io/file porras-resource-folder)
          io/file
          file-seq

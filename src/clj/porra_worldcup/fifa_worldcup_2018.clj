@@ -9,10 +9,11 @@
 (defn get-matches []
   (-> (client/get (str api-url "/matches"))
       :body
-      (json/decode true)))
+      (json/decode true)
+      reverse))
 
 (def get-matches-memoized
-  (memoize/ttl get-matches :ttl/threshold 60000))
+  (memoize/ttl get-matches :ttl/threshold 120000))
 
 (defn match-results [matches]
   (into {} (map (fn [m]
@@ -33,7 +34,7 @@
       (json/decode true)))
 
 (def get-group-results-memoized
-  (memoize/ttl get-group-results :ttl/threshold 60000))
+  (memoize/ttl get-group-results :ttl/threshold 120000))
 
 (defn get-group-matches [matches]
   (->> matches

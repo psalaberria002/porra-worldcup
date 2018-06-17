@@ -7,13 +7,14 @@
             [porra-worldcup.calculations :as calcs]
             [porra-worldcup.worldcup-api :as worldcup-api]
             [clj-time.local :as l]
-            [clj-time.coerce :as c]))
+            [clj-time.coerce :as c]
+            [porra-worldcup.config :as config]))
 
 (defn home-page []
   (layout/render "home.html"))
 
 (defn write-dataset-edn! [out-file raw-dataset-map]
-  (with-open [w (clojure.java.io/writer out-file)]
+  (with-open [w (clojure.java.io/writer (str (:porrasfolder config/env) "/" out-file ".edn"))]
     (binding [*out* w]
       (clojure.pprint/write raw-dataset-map))))
 

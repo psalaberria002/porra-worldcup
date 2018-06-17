@@ -11,7 +11,9 @@
             [ajax.core :refer [GET POST]]
             [porra-worldcup.ajax :refer [load-interceptors!]]
             [porra-worldcup.events]
-            [secretary.core :as secretary])
+            [secretary.core :as secretary]
+            [json-html.core :as edn]
+            [cljs.pprint :refer [pprint]])
   (:import goog.History))
 
 (defn nav-link [uri title page]
@@ -146,23 +148,34 @@
             "Saved successfully ;)")]]))))
 
 (defn ranking-page []
-  [:div.container
-   [:header
-    [:h1 "Fifa World Cup Ranking"]]
-   [:div.wrapper
-    [:table
-     [:thead
-      [:tr
-       (for [c ["Rank" "Name" "Points"]]
-         [:th c])]]
-     (when-let [ranking @(rf/subscribe [:ranking])]
-       [:tbody
-        (doall (map-indexed (fn [i [name points]]
-                              [:tr
-                               [:td.rank (+ 1 i)]
-                               [:td.team name]
-                               [:td.points points]])
-                            ranking))])]]])
+  (let [standings @(rf/subscribe [:standings])
+        selected-porra @(rf/subscribe [:selected-porra])]
+    [:div.container
+    [:header
+     [:h1 "Fifa World Cup Ranking"]]
+    [:div.wrapper
+     [:table
+      [:thead
+       [:tr
+        (for [c ["Rank" "Name" "Points"]]
+          [:th c])]]
+      (when-let [ranking @(rf/subscribe [:ranking])]
+        [:tbody
+         (doall (map-indexed (fn [i [name points]]
+                               [:tr {:on-click #(rf/dispatch [:select-porra name])}
+                                [:td.rank (+ 1 i)]
+                                [:td.team name]
+                                [:td.points points]])
+                             ranking))])]]
+    [:div
+     (when selected-porra
+       [:div
+        [:h3 selected-porra]
+        [:pre [:code (with-out-str (pprint (first (filter #(= (:name %) selected-porra) (:porras standings)))))]]])
+     (when standings
+       [:div
+        [:h3 "Results"]
+        [:pre [:code (with-out-str (pprint (:results standings)))]]])]]))
 
 (def pages
   {:ranking #'ranking-page
@@ -181,6 +194,9 @@
 
 (defn fetch-ranking! []
   (GET "/api/rankingpoints" {:handler #(rf/dispatch [:set-ranking %])}))
+
+(defn fetch-standings! []
+  (GET "/api/standings" {:handler #(rf/dispatch [:set-standings %])}))
 
 (defn fetch-matches! []
   (GET "/api/matches" {:handler #(rf/dispatch [:set-matches %])}))
@@ -227,5 +243,6 @@
   (fetch-docs!)
   (fetch-teams)
   (fetch-matches!)
+  (fetch-standings!)
   (hook-browser-navigation!)
   (mount-components))

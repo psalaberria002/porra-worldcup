@@ -106,6 +106,6 @@
           :semi #{"Brazil" "Belgium" "France" "Spain"},
           :final #{"Brazil" "France"},
           :third-and-fourth #{"Belgium" "Spain"},
-          :winner "Germany"},
+          :winner "France"},
  :pichichi "Neymar",
  :mvp "Mbappe"}
