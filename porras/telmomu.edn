@@ -92,6 +92,6 @@
         :semi #{"Argentina" "Brazil" "Spain" "Germany"},
         :final #{"Argentina" "Germany"},
         :third-and-fourth #{"Brazil" "Spain"},
-        :winner ""},
+        :winner "Argentina"},
  :pichichi "Griezmann",
  :mvp "Messi"}
