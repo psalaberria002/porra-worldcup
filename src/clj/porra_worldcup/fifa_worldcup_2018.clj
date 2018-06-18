@@ -10,7 +10,7 @@
   (-> (client/get (str api-url "/matches"))
       :body
       (json/decode true)
-      reverse))
+      #_reverse))
 
 (def get-matches-memoized
   (memoize/ttl get-matches :ttl/threshold 120000))

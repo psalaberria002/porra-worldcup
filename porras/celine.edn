@@ -5,7 +5,7 @@
            ["Serbia" "Switzerland"] "X",
            ["Costa Rica" "Serbia"] "2",
            ["Poland" "Colombia"] "X",
-           ["Sweden" "South Korea"] "1",
+           ["Sweden" "Korea Republic"] "1",
            ["Germany" "Sweden"] "1",
            ["Peru" "Denmark"] "2",
            ["France" "Australia"] "1",
@@ -20,9 +20,9 @@
            ["Switzerland" "Costa Rica"] "1",
            ["Iran" "Spain"] "2",
            ["Uruguay" "Russia"] "2",
-           ["South Korea" "Mexico"] "X",
+           ["Korea Republic" "Mexico"] "X",
            ["Russia" "Saudi Arabia"] "1",
-           ["South Korea" "Germany"] "2",
+           ["Korea Republic" "Germany"] "2",
            ["Mexico" "Sweden"] "X",
            ["Iceland" "Croatia"] "X",
            ["Saudi Arabia" "Egypt"] "2",
@@ -77,7 +77,7 @@
                    :h1 "Poland",
                    :d3 "Iceland",
                    :h3 "Japan",
-                   :f4 "South Korea",
+                   :f4 "Korea Republic",
                    :a4 "Saudi Arabia"},
  :rounds {:round-16 #{"Uruguay"
                       "Argentina"
@@ -107,5 +107,5 @@
           :final #{"Brazil" "France"},
           :third-and-fourth #{"Portugal" "Croatia"},
           :winner "Brazil"},
- :pichichi "Neymar",
- :mvp "Coutinho"}
+ :pichichi "Coutinho",
+ :mvp "Neymar"}
