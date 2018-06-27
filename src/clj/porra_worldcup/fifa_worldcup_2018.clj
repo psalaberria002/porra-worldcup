@@ -59,23 +59,25 @@
                                (set (get-teams-in-final matches)))))
 
 (defn group-finished? [group-matches]
-  (every? #(= 3 (:games_played (:team %))) group-matches))
+  (every? #(= 3 (:games_played %)) group-matches))
 
 (defn get-group-standings [group-results]
-  (into (sorted-map) (mapcat (fn [g]
-                               (let [teams-sorted (get-in g [:group :teams])
-                                     g-letter (clojure.string/lower-case (get-in g [:group :letter]))
-                                     group-finished? (group-finished? teams-sorted)]
-                                 (when group-finished?
-                                   (map-indexed (fn [i t] [(keyword (str g-letter (+ 1 i))) (:country (:team t))]) teams-sorted)))) group-results)))
+  (into (sorted-map)
+        (mapcat (fn [g]
+                  (let [teams-sorted (:ordered_teams g)
+                        g-letter (clojure.string/lower-case (:letter g))
+                        group-finished? (group-finished? teams-sorted)]
+                    (when group-finished?
+                      (map-indexed (fn [i t] [(keyword (str g-letter (+ 1 i))) (:country t)]) teams-sorted))))
+                group-results)))
 
 (defn get-first-two-from-each-group [group-results]
   (set (mapcat (fn [g]
-                 (let [teams-sorted (get-in g [:group :teams])
+                 (let [teams-sorted (:ordered_teams g)
                        group-finished? (group-finished? teams-sorted)]
                    (when group-finished?
                      (->> ((juxt first second) teams-sorted)
-                          (map (fn [t] (:country (:team t)))))))) group-results)))
+                       (map :country ))))) group-results)))
 
 (defn generate-results-porra []
   (let [matches (get-matches-memoized)
@@ -84,12 +86,12 @@
     {:matches         (match-results group-matches)
      :group-standings (get-group-standings group-results)
      :rounds          {:round-16
-                       (get-first-two-from-each-group group-results)
-                                 :quarter (get-teams-in-quarter-finals matches)
-                                 :semi (get-teams-in-semi-finals matches)
-                                 :final (get-teams-in-final matches)
-                                 :third-and-fourth (get-teams-in-third-and-fourth-game matches)
-                                 :winner (get-winner matches)}
+                                         (get-first-two-from-each-group group-results)
+                       :quarter          (get-teams-in-quarter-finals matches)
+                       :semi             (get-teams-in-semi-finals matches)
+                       :final            (get-teams-in-final matches)
+                       :third-and-fourth (get-teams-in-third-and-fourth-game matches)
+                       :winner           (get-winner matches)}
      :pichichi        ""}))
 
 
