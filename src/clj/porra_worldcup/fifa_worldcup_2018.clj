@@ -59,7 +59,7 @@
                                (set (get-teams-in-final matches)))))
 
 (defn group-finished? [group-matches]
-  (every? #(= 3 (:games_played %)) group-matches))
+  (every? #(> (:games_played %) 2) group-matches))
 
 (defn get-group-standings [group-results]
   (into (sorted-map)
