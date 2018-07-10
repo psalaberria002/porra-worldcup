@@ -53,10 +53,17 @@
 (defn get-teams-in-semi-finals [matches]
   (get-winners-of-round matches 56 59))
 (defn get-teams-in-final [matches]
-  (get-winners-of-round matches 60 61))
+  (set (filter identity (get-winners-of-round matches 60 61))))
 (defn get-teams-in-third-and-fourth-game [matches]
-  (->> (clojure.set/difference (set (get-teams-in-semi-finals matches))
-                               (set (get-teams-in-final matches)))))
+  (let [semis (filter #(= "Semi-finals" (:stage_name %)) matches)]
+    (set
+      (mapcat (fn [s]
+                (let [teams ((juxt :home_team_country :away_team_country) s)
+                      winner (:winner s)]
+                  (when winner
+                    (remove #(= winner %) teams)))) semis)))
+  #_(->> (clojure.set/difference (set (get-teams-in-semi-finals matches))
+                                 (set (get-teams-in-final matches)))))
 
 (defn group-finished? [group-matches]
   (every? #(> (:games_played %) 2) group-matches))
@@ -77,19 +84,20 @@
                        group-finished? (group-finished? teams-sorted)]
                    (when group-finished?
                      (->> ((juxt first second) teams-sorted)
-                       (map :country ))))) group-results)))
+                          (map :country))))) group-results)))
 
 (defn generate-results-porra []
   (let [matches (get-matches-memoized)
         group-matches (get-group-matches matches)
-        group-results (get-group-results-memoized)]
+        group-results (get-group-results-memoized)
+        teams-in-final (get-teams-in-final matches)]
     {:matches         (match-results group-matches)
      :group-standings (get-group-standings group-results)
      :rounds          {:round-16
                                          (get-first-two-from-each-group group-results)
                        :quarter          (get-teams-in-quarter-finals matches)
                        :semi             (get-teams-in-semi-finals matches)
-                       :final            (get-teams-in-final matches)
+                       :final            teams-in-final
                        :third-and-fourth (get-teams-in-third-and-fourth-game matches)
                        :winner           (get-winner matches)}
      :pichichi        ""}))
